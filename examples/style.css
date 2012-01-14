@@ -1,0 +1,18 @@
+h2{ font-size:1.2em; }
+header{ margin-bottom:2.5em; margin-top:2em; border-bottom: 1px solid #ccc; }
+div.hero-unit{ padding-bottom:15px; padding-top:30px; }
+div.hero-unit p{ font-size:1.1em; }
+div.hero-unit h1{ font-size:2em; }
+
+.container .row { border-bottom: 1px solid #ccc; margin-top: 1.5em; }
+
+
+.form-custom form  .form-body { border: 1px solid #ccc; padding: 2em; margin: 0; border-bottom: none; }
+.form-custom form label { width: 28%; text-transform: capitalize; }
+.form-custom form .input { width: 71%; margin-left: 31%; }
+.form-custom form .input .xlarge { width: 90%; }
+
+.form-custom form .form-footer { background-color:#f5f5f5; padding: 6px 15px; border-top:1px solid #ddd; -webkit-border-radius:0 0 6px 6px; -moz-border-radius:0 0 6px 6px; border-radius:0 0 6px 6px; -webkit-box-shadow:inset 0 1px 0 #ffffff; -moz-box-shadow:inset 0 1px 0 #ffffff; box-shadow:inset 0 1px 0 #ffffff; zoom:1; margin-bottom:0; }
+.form-custom form .form-footer .btn { float: right; margin-left: 5px; font-size: 0.8em; }
+.form-custom form .form-footer:before, .form-custom form .form-footer:after { display: table; content: ""; zoom: 1; }
+.form-custom form .form-footer:after { clear: both; }

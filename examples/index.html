@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>bbf demo</title>
+	<meta name="description" content="A(nother) Backbone Form generator">
+	<meta name="author" content="Mickael Daniel">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <link rel="stylesheet" href="./bootstrap.min.css">
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="container">
+		<header>
+      <h1>BBF <small>Backb&#9731;ne F&#9731;rm + bootstrap</small></h1>
+		</header>
+		<div class="hero-unit">
+	    <h1>Demo</h1>
+      <p>Super simplified version of Backbone-forms with the bare minimum functionnality I need.</p>
+      <p>Actually, this is just a simple form html generation from given model attributes. The resulting html is designed to fit well with bootstrap's form layout.</p>
+      <p>This is still a Backbone.View, so it's expected that it should work in very much the same way (events delegation should work, extending and so fourth)</p>
+	    <p><a class="btn primary large" href="../docs/backbone-forms.html">Learn more &raquo;</a></p>
+    </div>
+
+    <section id="forms">
+      <div class="page-header">
+        <h1>Forms</h1>
+      </div>
+      <div class="row">
+        <div class="span4">
+          <h2>Default functionnality</h2>
+          <p>
+            Forms views are given a model to work with on which the View will operate and
+            generate the form's html. It'll use a template function that can be overriden
+            by passing in a precompiled template function property.
+          </p>
+          <p>
+            Forms are able to generate text inputs, select lists, textareas and checkboxes.
+          </p>
+          <p><a class="btn" href="../docs/simple.html">View this example source »</a></p>
+        </div>
+        <div class="span12 form-simple"></div>
+      </div>
+
+      <div class="row">
+        <div class="span4">
+          <h2>Nested objects</h2>
+          <p>
+            When one of the model attributes is a nested object, the html is
+            recursively generated. Each id / name attributes are created based on
+            the current key and optional nested level key, taking the form of
+            <code>input-viewid-nested-key</code> where <code>viewid</code>
+            refers to the Backbone View's cid property.
+          </p>
+          <p><a class="btn" href="../docs/nested.html">View this example source »</a></p>
+        </div>
+        <div class="span12 form-nested"></div>
+      </div>
+
+      <div class="row">
+        <div class="span4">
+          <h2>Extending Backbone.Form</h2>
+          <p>
+            A Backbone.Form can be created and used right away, but they're still Backbone.View. So,
+            it's expected that they should behave in very much the same way
+          </p>
+          <p>
+            That being said, we could create a custom Backbone.View extending from Backbone.Form
+            and still be able to use properties like <code>events</code>, <code>tagName</code> or <code>className</code>.
+            In addition to that, the custom <code>template</code> property could be used to pass in a precompiled
+            template function to utterly customize the form output.
+          </p>
+          <p><a class="btn" href="../docs/custom.html">View this example source »</a></p>
+        </div>
+
+        <div class="span12 form-custom">
+          <script type="text-x/template">
+            <form>
+              <div class="form-body">
+                <%= html %>
+              </div>
+              <div class="form-footer">
+                <input type="submit" class="btn primary" value="OK" />
+                <a href="#" class="btn secondary">Cancel</a>
+              </div>
+            </form>
+          </script>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="span16">
+          <div class="page-header">
+            <h2>What about form validation?</h2>
+          </div>
+          <p>
+            I'd recommend putting the validation logic into your models, not inside the views, even if it is
+            a form view. the <code>serialize</code> method is meant to return an object that is suitable to use with
+            models' <code>set</code> method, regardless the nested object structure and "levels".
+          </p>
+          <p>
+            Optionnaly, the forms may (or may not) listen for <code>error</code> events on the provided model
+            and provides some defaults error handling (such as displaying the error message in an <code>.error</code> box)
+          </p>
+
+
+          <div class="page-header">
+            <h2>What about data-binding?</h2>
+          </div>
+          <p>
+            Not yet implemented, but hopefully, we'll get there. The basic idea is that whenever one of the
+            fields' value changes, the according model attributes is udpated (and vice-versa). The change will probably happen with
+            <code>{ silent: true }</code> by default, but that'll certainly need to be configurable through options.
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+		
+    <footer>
+      &#9731;
+	  </footer>
+  </div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.2.2/underscore-min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min.js"></script>
+  <script defer src="../backbone-forms.js"></script>
+  <script defer src="./simple.js"></script>
+  <script defer src="./nested.js"></script>
+  <script defer src="./custom-view.js"></script>
+</body>
+</html>

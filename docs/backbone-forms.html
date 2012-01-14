@@ -1,0 +1,230 @@
+<!DOCTYPE html>  <html> <head>   <title>backbone-forms.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               backbone-forms.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">Backbone</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">exports</span><span class="p">)</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>inline template ftw</p>
+
+<p>precompiled underscore template function, this is the default template
+forms will use. Can be overriden by passing in a <code>template</code> property.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="kd">var</span> <span class="nx">tmpl</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">([</span>
+    <span class="s1">&#39;&lt;% _.each(items, function(item) { %&gt;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39; &lt;div class=&quot;clearfix&quot;&gt;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;   &lt;label for=&quot;input-&lt;%= item.cid %&gt;-&lt;%= item.label %&gt;&quot;&gt;&lt;%= item.label %&gt;&lt;/label&gt;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;   &lt;div class=&quot;input&quot;&gt;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;     &lt;%= item.html %&gt;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;   &lt;/div&gt;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39; &lt;/div&gt;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;&lt;% }); %&gt;&#39;</span>
+  <span class="p">].</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">));</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>some regex helpers borrowed to jQuery (namely to impl our custom serializeArray)</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="kd">var</span> <span class="nx">rCRLF</span> <span class="o">=</span> <span class="sr">/\r?\n/g</span><span class="p">,</span>
+    <span class="nx">rselectTextarea</span> <span class="o">=</span> <span class="sr">/^(?:select|textarea)/i</span><span class="p">,</span>
+    <span class="nx">rinput</span> <span class="o">=</span> <span class="sr">/^(?:color|date|datetime|datetime-local|email|hidden|month|number|password|range|search|tel|text|time|url|week)$/i</span><span class="p">;</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <h2>Form</h2>
+
+<p>Super simplified version of Backbone-forms
+with the bare minimum functionnality I need.</p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Actually, this is just a simple form html generation
+from given model attributes. The resulting html is designed
+to fit well with bootstrap's form layout.</p>
+
+<p>This is still a Backbone.View, so it's expected that it should
+work in very much the same way (events delegation should work,
+extending and so fourth)</p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Expose stuff to the real world as <code>Backbone.Form</code>.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="kd">var</span> <span class="nx">Form</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Form</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>the default tag name for the creation of the form element</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">tagName</span><span class="o">:</span> <span class="s1">&#39;form&#39;</span><span class="p">,</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>optional list of properties to exclude. Won't be generated.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">exclude</span><span class="o">:</span> <span class="p">[],</span>
+
+    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>the default template that can be overriden by passing in another compiled function as a <code>template</code> property.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="nx">template</span><span class="o">:</span> <span class="nx">tmpl</span>
+    <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>init all that jazz</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">initialize</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;Backbone.Form needs a model to work with.&#39;</span><span class="p">);</span>
+      <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span> <span class="k">instanceof</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Model</span><span class="p">))</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;&#39;Backbone.Form&#39;s model should be a Backbone.Model instance&quot;</span><span class="p">);</span>
+    <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <h4>html</h4>
+
+<p>Returns the html representation.. or w/e.</p>
+
+<p>This is where all the magic happens. <code>model.attributes</code>
+(that is the internal object that Backbone use to <code>get</code>
+or <code>set</code> things) is used to generate the whole.</p>
+
+<p><code>options.template</code> precompiled function is used to generate the form,
+and is passed an array of items the template should iterate through.</p>
+
+<p>Each item get the following values:</p>
+
+<ul>
+<li><code>type</code>: the "form" type returned by <code>getType</code> method</li>
+<li><code>html</code>: the unescaped html representation for that particular type</li>
+<li><code>label</code>: the attributes key</li>
+<li><code>value</code>: the attribute value</li>
+<li><code>cid</code>: the form view cid property</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">html</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">html</span><span class="p">(</span><span class="nx">attrs</span><span class="p">,</span> <span class="nx">level</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">attrs</span> <span class="o">=</span> <span class="nx">attrs</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">attributes</span><span class="p">;</span>
+      <span class="nx">level</span> <span class="o">=</span> <span class="nx">level</span> <span class="o">?</span> <span class="nx">level</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+
+      <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span>
+        <span class="nx">keys</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">attrs</span><span class="p">),</span>
+        <span class="nx">items</span> <span class="o">=</span> <span class="p">[];</span>
+
+      <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">keys</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">attrs</span><span class="p">[</span><span class="nx">key</span><span class="p">],</span>
+          <span class="nx">type</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">getType</span><span class="p">(</span><span class="nx">value</span><span class="p">),</span>
+          <span class="nx">exclude</span> <span class="o">=</span> <span class="o">!!~</span><span class="nx">_</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">exclude</span><span class="p">,</span> <span class="nx">key</span><span class="p">);</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="nx">exclude</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+
+        <span class="nx">items</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+          <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span><span class="p">,</span>
+          <span class="nx">html</span><span class="o">:</span> <span class="nx">self</span><span class="p">.</span><span class="nx">getHtml</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">type</span><span class="p">,</span> <span class="nx">level</span><span class="p">),</span>
+          <span class="nx">label</span><span class="o">:</span> <span class="nx">key</span><span class="p">,</span>
+          <span class="nx">value</span><span class="o">:</span> <span class="nx">value</span><span class="p">,</span>
+          <span class="nx">cid</span><span class="o">:</span> <span class="nx">self</span><span class="p">.</span><span class="nx">cid</span>
+        <span class="p">});</span>
+      <span class="p">});</span>
+
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">template</span><span class="p">({</span>
+        <span class="nx">items</span><span class="o">:</span> <span class="nx">items</span>
+      <span class="p">});</span>
+    <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <h4>getType</h4>
+
+<p>Basic mapping from JavaScript types to input types.</p>
+
+<p>String / Numbers results in <code>&lt;input type="text" /&gt;</code>,
+arrays in <code>&lt;select /&gt;</code>, booleans in checkboxes.</p>
+
+<p>Objects are a special case where the html is generated recursively.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">getType</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">getType</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">val</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="p">)</span> <span class="k">return</span> <span class="s1">&#39;text&#39;</span><span class="p">;</span>
+      <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">val</span> <span class="o">===</span> <span class="s1">&#39;number&#39;</span><span class="p">)</span> <span class="k">return</span> <span class="s1">&#39;text&#39;</span><span class="p">;</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">val</span><span class="p">))</span> <span class="k">return</span> <span class="s1">&#39;select&#39;</span><span class="p">;</span>
+      <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">val</span> <span class="o">===</span> <span class="s1">&#39;object&#39;</span><span class="p">)</span> <span class="k">return</span> <span class="s1">&#39;object&#39;</span><span class="p">;</span>
+      <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">val</span> <span class="o">===</span> <span class="s1">&#39;boolean&#39;</span><span class="p">)</span> <span class="k">return</span> <span class="s1">&#39;checkbox&#39;</span><span class="p">;</span></pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>todo: etc.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <h4>getHtml</h4>
+
+<p>Returns the html string representation for each handled type. </p>
+
+<p><code>key</code> is used to generate labels. <code>value</code> is used to either set the value
+attribute of text inputs, to generate the corresponding list of select options
+(in case of <code>value</code> beeing an array), or to set the <code>checked</code> state of checkboxes</p>
+
+<p>In case of <code>&lt;select /&gt;</code> elements, the optional mapping for the key is used to
+setup the <code>selected</code> state of according options. Usually, select elements are
+managed through two model properties, one for the list of options, the second to 
+hold the selected values.</p>
+
+<p><em>todo here: collection of templates (for each handled type), instead of inlined html.</em></p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">getHtml</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">getHtml</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">type</span><span class="p">,</span> <span class="nx">level</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">fragment</span><span class="p">,</span>
+        <span class="nx">mapping</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">mapping</span> <span class="o">||</span> <span class="p">{},</span>
+        <span class="nx">mapped</span> <span class="o">=</span> <span class="nx">mapping</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">mapping</span><span class="p">[</span><span class="nx">key</span><span class="p">]);</span>
+
+      <span class="nx">key</span> <span class="o">=</span> <span class="nx">level</span> <span class="o">+</span> <span class="nx">key</span><span class="p">;</span>
+
+      <span class="k">if</span><span class="p">(</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;&lt;input class=&quot;xlarge&quot; id=&quot;input-:cid-:label&quot; name=&quot;input-:cid-:label&quot; size=&quot;30&quot; type=&quot;text&quot; value=&quot;:value&quot; /&gt;&#39;</span>
+          <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/:cid/g</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">cid</span><span class="p">)</span>
+          <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/:label/g</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span>
+          <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/:value/g</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
+      <span class="p">}</span>
+
+      <span class="k">if</span><span class="p">(</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;select&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nb">Array</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">value</span><span class="p">))</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;values should be an array with select type&#39;</span><span class="p">);</span>
+        <span class="nx">fragment</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&lt;select id=&quot;input-:cid-:label&quot; name=&quot;input-:cid-:label&quot;&gt;&#39;</span><span class="p">];</span>
+        <span class="nx">fragment</span> <span class="o">=</span> <span class="nx">fragment</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">value</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="s1">&#39;&lt;option value=&quot;&#39;</span> <span class="o">+</span> <span class="nx">val</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="nx">mapped</span> <span class="o">&amp;&amp;</span> <span class="nx">mapped</span> <span class="o">===</span> <span class="nx">val</span> <span class="o">?</span> <span class="s1">&#39;selected=&quot;selected&quot;&#39;</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">+</span> <span class="s1">&#39;&gt;&#39;</span> <span class="o">+</span> <span class="nx">val</span> <span class="o">+</span> <span class="s1">&#39;&lt;/option&gt;&#39;</span>
+        <span class="p">}));</span>
+        <span class="nx">fragment</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;&lt;/select&gt;&#39;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">fragment</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">)</span>
+          <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/:cid/g</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">cid</span><span class="p">)</span>
+          <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/:label/g</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span>
+          <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/:value/g</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span>
+      <span class="p">}</span>
+
+
+      <span class="k">if</span><span class="p">(</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;checkbox&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">fragment</span> <span class="o">=</span> <span class="p">[</span>
+          <span class="s1">&#39;&lt;div class=&quot;input-prepend&quot;&gt;&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;  &lt;label class=&quot;add-on activ&quot;&gt;&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;    &lt;input type=&quot;checkbox&quot; name=&quot;input-:cid-:label&quot; id=&quot;input-:cid-:label&quot; &#39;</span> <span class="o">+</span> <span class="p">(</span><span class="nx">value</span> <span class="o">?</span> <span class="s1">&#39;checked=&quot;checked&quot;&#39;</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/&gt;&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;  &lt;/label&gt;&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;&lt;/div&gt;&#39;</span>
+        <span class="p">];</span>
+
+        <span class="k">return</span> <span class="nx">fragment</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">)</span>
+          <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/:cid/g</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">cid</span><span class="p">)</span>
+          <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/:label/g</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span>
+          <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/:value/g</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
+      <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>In case of <code>object</code> type, recursively call the <code>html</code>
+method to generate the form. The current key is then used as
+a new "level".</p>
+
+<p><code>name</code> and <code>id</code> attributes are set depending on the level / key
+combination (prefixed by <code>input-viewid</code>, where <code>viewid</code> refers to the
+view's <code>cid</code> prop.)</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="k">if</span><span class="p">(</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;object&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">html</span><span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="nx">key</span><span class="p">);</span>
+      <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Otherwise, this is an unknown or not yet handled type. Make it clear and obvious.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;Unknown field type &#39;</span> <span class="o">+</span> <span class="nx">type</span><span class="p">);</span>
+    <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <h4>render</h4>
+
+<p>render the form and all fields.. or w/e</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">html</span><span class="p">());</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+    <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <h4>serialize</h4>
+
+<p>Returns the mapping object for each defined attributes in the generated form.</p>
+
+<p>This should works with any level of nested object, and it should map checkboxes
+value to either true / false value (instead of not serializing it). Finally,
+basic type coercion are done on different kind of string output. The serialized
+object should be usable as is to set the new model state.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">serialize</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">serialize</span><span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">form</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">tagName</span> <span class="o">===</span> <span class="s1">&#39;form&#39;</span> <span class="o">?</span> <span class="k">this</span><span class="p">.</span><span class="nx">el</span> <span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">),</span>
+        <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span>
+        <span class="nx">cid</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cid</span><span class="p">,</span>
+        <span class="nx">o</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="nx">arr</span><span class="p">;</span>
+
+      <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">form</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;Serialize must operate on a form element&#39;</span><span class="p">);</span>
+
+      <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">serializeArray</span><span class="p">(</span><span class="nx">form</span><span class="p">),</span> <span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">name</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;input-&#39;</span> <span class="o">+</span> <span class="nx">cid</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+          <span class="nx">lvls</span> <span class="o">=</span> <span class="nx">name</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">),</span>
+          <span class="nx">ln</span> <span class="o">=</span> <span class="nx">lvls</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span>
+          <span class="nx">tmp</span> <span class="o">=</span> <span class="nx">o</span><span class="p">;</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="nx">ln</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="nx">o</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+
+        <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">lvls</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">lvl</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">tmp</span><span class="p">[</span><span class="nx">lvl</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">!==</span> <span class="nx">ln</span><span class="p">)</span> <span class="nx">tmp</span> <span class="o">=</span> <span class="nx">tmp</span><span class="p">[</span><span class="nx">lvl</span><span class="p">]</span> <span class="o">=</span> <span class="p">{};</span>
+          <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">tmp</span><span class="p">[</span><span class="nx">lvl</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">!==</span> <span class="nx">ln</span><span class="p">)</span> <span class="nx">tmp</span> <span class="o">=</span> <span class="nx">tmp</span><span class="p">[</span><span class="nx">lvl</span><span class="p">];</span>
+          <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">tmp</span><span class="p">[</span><span class="nx">lvl</span><span class="p">])</span> <span class="p">{</span>
+            <span class="nx">tmp</span><span class="p">[</span><span class="nx">lvl</span><span class="p">]</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+          <span class="p">}</span>
+        <span class="p">});</span>
+      <span class="p">});</span>
+
+      <span class="k">return</span> <span class="nx">o</span><span class="p">;</span>
+    <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <h4>serializeArray</h4>
+
+<p>Reimpl a (simpler) version of jQuery's serialize array, cause we
+need to get values for checkbox as either true / false.
+$.fn.serializeArray by default doesn't return anything when a
+checkbox.checked is set to false. I just want the element.checked
+value.</p>
+
+<p>Another difference is that we only operate on top of a single form.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">serializeArray</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">serializeArray</span><span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">el</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">elements</span> <span class="o">?</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">makeArray</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">elements</span> <span class="p">)</span> <span class="o">:</span> <span class="k">this</span><span class="p">;</span>
+      <span class="p">}).</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">disabled</span> <span class="o">&amp;&amp;</span>
+          <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">checked</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">||</span> <span class="nx">rselectTextarea</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodeName</span> <span class="p">)</span> <span class="o">||</span> <span class="nx">rinput</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">type</span> <span class="p">)</span> <span class="p">);</span>
+      <span class="p">}).</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">elem</span> <span class="p">){</span>
+        <span class="kd">var</span> <span class="nx">val</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">(</span> <span class="k">this</span> <span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+        <span class="nx">val</span> <span class="o">=</span> <span class="nx">val</span> <span class="o">===</span> <span class="s1">&#39;on&#39;</span> <span class="o">?</span> <span class="k">this</span><span class="p">.</span><span class="nx">checked</span> <span class="o">+</span> <span class="s1">&#39;&#39;</span> <span class="o">:</span> <span class="nx">val</span><span class="p">;</span>
+
+        <span class="k">return</span> <span class="nx">val</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span>
+          <span class="nx">jQuery</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span> <span class="nx">val</span> <span class="p">)</span> <span class="o">?</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span> <span class="nx">val</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">val</span><span class="p">,</span> <span class="nx">i</span> <span class="p">){</span>
+            <span class="k">return</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">value</span><span class="o">:</span> <span class="nx">val</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="nx">rCRLF</span><span class="p">,</span> <span class="s2">&quot;\r\n&quot;</span> <span class="p">)</span> <span class="p">};</span>
+          <span class="p">})</span> <span class="o">:</span>
+          <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">value</span><span class="o">:</span> <span class="nx">val</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="nx">rCRLF</span><span class="p">,</span> <span class="s2">&quot;\r\n&quot;</span> <span class="p">)</span> <span class="p">};</span>
+      <span class="p">}).</span><span class="nx">get</span><span class="p">();</span>
+    <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <h4>value</h4>
+
+<p>Conversion helper, courtesy of jQuery. Part of <code>dataAttr</code> function used
+to grab the <code>data-*</code> attributes values. <code>"true"</code>, <code>"false"</code> and <code>"null"</code>
+strings are mapped to their JavaScript couterparts and number-like strings
+are <code>parseFloat</code>-ed.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">value</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">value</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">val</span> <span class="o">===</span> <span class="s1">&#39;true&#39;</span> <span class="o">?</span> <span class="kc">true</span> <span class="o">:</span>
+        <span class="nx">val</span> <span class="o">===</span> <span class="s1">&#39;false&#39;</span> <span class="o">?</span> <span class="kc">false</span> <span class="o">:</span>
+        <span class="nx">val</span> <span class="o">===</span> <span class="s1">&#39;null&#39;</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span>
+        <span class="p">(</span><span class="o">!</span><span class="nb">isNaN</span><span class="p">(</span><span class="nb">parseFloat</span><span class="p">(</span><span class="nx">val</span><span class="p">))</span> <span class="o">&amp;&amp;</span> <span class="nb">isFinite</span><span class="p">(</span><span class="nx">val</span><span class="p">))</span> <span class="o">?</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="o">:</span>
+        <span class="nx">val</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+
+<span class="p">})(</span><span class="k">this</span><span class="p">.</span><span class="nx">Backbone</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">_</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

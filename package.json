@@ -1,0 +1,8 @@
+{
+  "author": "mklabs",
+  "name": "bbf",
+  "description": "Generates forms from Backbone.Model attributes",
+  "version": "0.0.1",
+  "dependencies": {},
+  "devDependencies": {}
+}
