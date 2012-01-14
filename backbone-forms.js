@@ -124,7 +124,7 @@
 
     // #### getHtml
     //
-    // Returns the html string representation for each handled type. 
+    // Returns the html string representation for each handled type.
     //
     // `key` is used to generate labels. `value` is used to either set the value
     // attribute of text inputs, to generate the corresponding list of select options
@@ -132,7 +132,7 @@
     //
     // In case of `<select />` elements, the optional mapping for the key is used to
     // setup the `selected` state of according options. Usually, select elements are
-    // managed through two model properties, one for the list of options, the second to 
+    // managed through two model properties, one for the list of options, the second to
     // hold the selected values.
     //
     // *todo here: collection of templates (for each handled type), instead of inlined html.*
@@ -152,7 +152,7 @@
 
       if(type === 'select') {
         if(!Array.isArray(value)) throw new Error('values should be an array with select type');
-        fragment = ['<select id="input-:cid-:label" name="input-:cid-:label">'];
+        fragment = ['<select id="input-:cid-:label" name="input-:cid-:label" class="xlarge">'];
         fragment = fragment.concat(value.map(function(val) {
           return '<option value="' + val + '"' + (mapped && mapped === val ? 'selected="selected"': '')+ '>' + val + '</option>'
         }));
@@ -168,7 +168,7 @@
         fragment = [
           '<div class="input-prepend">',
           '  <label class="add-on activ">',
-          '    <input type="checkbox" name="input-:cid-:label" id="input-:cid-:label" ' + (value ? 'checked="checked"' : '') + '/>',
+          '    <input type="checkbox" class="xlarge" name="input-:cid-:label" id="input-:cid-:label" ' + (value ? 'checked="checked"' : '') + '/>',
           '  </label>',
           '</div>'
         ];
@@ -210,7 +210,7 @@
     // basic type coercion are done on different kind of string output. The serialized
     // object should be usable as is to set the new model state.
     serialize: function serialize(el) {
-      var form = this.tagName === 'form' ? this.el : this.el.find('form'),
+      var form = this.tagName === 'form' ? $(this.el) : $(this.el).find('form'),
         self = this,
         cid = this.cid,
         o = {},
