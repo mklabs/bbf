@@ -3,9 +3,7 @@
 <head>
 	<meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>bbf demo</title>
-	<meta name="description" content="A(nother) Backbone Form generator">
-	<meta name="author" content="Mickael Daniel">
+  <title>Backbone + Bootstrap + Forms === this</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   <link rel="stylesheet" href="./bootstrap.min.css">
@@ -14,13 +12,27 @@
 <body>
   <div class="container">
 		<header>
-      <h1>BBF <small>Backb&#9731;ne F&#9731;rm + bootstrap</small></h1>
+      <h1>BBF <small>&#123; Backb&#9731;ne + B<span>☺☺</span>tstrap + F&#9731;rms &#125;</small></h1>
 		</header>
 		<div class="hero-unit">
 	    <h1>Demo</h1>
-      <p>Super simplified version of Backbone-forms with the bare minimum functionnality I need.</p>
-      <p>Actually, this is just a simple form html generation from given model attributes. The resulting html is designed to fit well with bootstrap's form layout.</p>
-      <p>This is still a Backbone.View, so it's expected that it should work in very much the same way (events delegation should work, extending and so fourth)</p>
+      <p>
+        Super simplified version of a Form Generator from Backbone.Models with the bare minimum functionnality I need.
+        Actually, this is just a simple form html generation from given model attributes. The resulting html is designed to fit well with bootstrap's form layout.
+      </p>
+      <p>This is still a Backbone.View, so it's expected that it should work in very much the same way.</p>
+
+      <p class="alert-message warning"><em>
+        I've made this to suit very specific needs. If you're looking into a robust and mature solution to generates Forms from Backbone.Models, you should definitely take a look at the really neat <a href="https://github.com/powmedia/backbone-forms">backbone-form</a>. It'll go far beyond what this bbf thing is able to do, and it'll do in a much better way.
+      </em></p>
+
+      <p>
+        That beeing said, if you'd like to check out some more examples, you may
+        want to take a look at this <a href="https://mklabs.github.com/bbf/examples/">example
+        page</a>, see the <a href="https://mklabs.github.com/bbf/docs/bbf.html">annotated source
+        code</a>, or run the <a href="https://mklabs.github.com/bbf/tests/">test</a> suite.
+      </p>
+
 	    <p><a class="btn primary large" href="../docs/backbone-forms.html">Learn more &raquo;</a></p>
     </div>
 
@@ -76,7 +88,7 @@
         </div>
 
         <div class="span12 form-custom">
-          <script type="text-x/template">
+          <script type="text/template">
             <form>
               <div class="form-body">
                 <%= html %>
@@ -119,7 +131,7 @@
       </div>
 
     </section>
-		
+
     <footer>
       &#9731;
 	  </footer>

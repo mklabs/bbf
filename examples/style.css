@@ -1,7 +1,10 @@
 h2{ font-size:1.2em; }
 header{ margin-bottom:2.5em; margin-top:2em; border-bottom: 1px solid #ccc; }
-div.hero-unit{ padding-bottom:15px; padding-top:30px; }
-div.hero-unit p{ font-size:1.1em; }
+header small { letter-spacing: 2px; }
+header small span { letter-spacing: -3px; margin-right: 3px; }
+div.hero-unit{ padding-bottom: 15px; padding-top: 30px; }
+div.hero-unit p{ font-size: 1.1em; }
+div.hero-unit p em{ font-size: 0.85em; }
 div.hero-unit h1{ font-size:2em; }
 
 .container .row { border-bottom: 1px solid #ccc; margin-top: 1.5em; }

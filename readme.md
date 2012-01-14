@@ -18,5 +18,5 @@ far far better way.
 That beeing said, if you'd like to check out some more examples, you may
 want to take a look at this [example
 page](https://mklabs.github.com/bbf/examples/), see the [annotated source
-code](https://mklabs.github.com/bbf/docs/backbone-forms.html), or run
+code](https://mklabs.github.com/bbf/docs/bbf.html), or run
 the [tests](https://mklabs.github.com/bbf/tests/).
