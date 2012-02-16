@@ -3,9 +3,9 @@
 
 Generates forms from Backbone.Model attributes.
 
-Generated html should fit well with twitter bootstrap's forms layout, and templates
-precompiled function could be passed in to completely customize the form
-output.
+Generated html should fit well with twitter bootstrap's forms layout, and
+templates precompiled function could be passed in to completely customize the
+form output.
 
 **disclaimer:** I've made this to suit very specific need at work and
 decided to push it here upstream. If you're looking into a robust and
