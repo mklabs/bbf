@@ -42,13 +42,13 @@
     // the default tag name for the creation of the form element
     tagName: 'form',
 
-    // optional list of properties to exclude. Won't be generated.
-    exclude: [],
-
     options: {
 
       // the default template that can be overriden by passing in another compiled function as a `template` property.
-      template: tmpl
+      template: tmpl,
+
+      // optional list of model properties to exclude. Won't be generated.
+      exclude: []
     },
 
     // init all that jazz
@@ -80,13 +80,14 @@
       level = level ? level + '-': '';
 
       var self = this,
+        options = this.options,
         keys = _.keys(attrs),
         items = [];
 
       _.each(keys, function(key, i) {
         var value = attrs[key],
           type = self.getType(value),
-          exclude = !!~_.indexOf(self.exclude, key);
+          exclude = !!~_.indexOf(options.exclude, key);
 
         if(exclude) return;
 
