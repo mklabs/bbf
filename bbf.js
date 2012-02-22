@@ -280,4 +280,4 @@
     }
   });
 
-})(this.Backbone, this._, this);
+})(process && process.title === 'browser' ? require('backbone') : this.Backbone, process && process.title === 'browser' ? require('underscore') : this._, this);
